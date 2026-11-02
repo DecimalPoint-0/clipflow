@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ClipFlow</title>
+  <link rel="manifest" href="/static/manifest.json">
+  <link rel="stylesheet" href="/static/style.css">
+  <meta name="theme-color" content="#09090b">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+</head>
+
+<body>
+
+  <div class="app-wrapper">
+    <!-- Header -->
+    <header>
+      <div class="logo">
+        clipflow <span>// local</span>
+      </div>
+
+      <div class="header-right">
+        <div id="statusBadge" class="status disconnected">
+          <div class="dot"></div>
+          <span id="statusText">connecting</span>
+        </div>
+
+        <button id="openGuideBtn" class="nav-btn" title="Setup guide">
+          guide
+        </button>
+
+        <button id="openQrBtn" class="nav-btn" title="Pair device">
+          qr
+        </button>
+      </div>
+    </header>
+
+    <!-- Hotkey row for PC -->
+    <div class="hotkey-row" id="hotkeyBanner">
+      <span>PC shortcut to broadcast highlight</span>
+      <kbd>Ctrl + Alt + C</kbd>
+    </div>
+
+    <!-- Active / Latest Clip -->
+    <div class="section-box">
+      <div class="section-label">
+        <span>Active Clip</span>
+        <span id="latestMeta" style="text-transform: none; font-weight: 400;">waiting</span>
+      </div>
+
+      <div id="latestContent" class="clip-display empty">No text received yet.</div>
+
+      <div class="clip-footer">
+        <button id="copyLatestBtn" class="btn-primary" style="width: 100%;">
+          <span id="copyBtnText">Copy to clipboard</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Send to Connected Devices -->
+    <div class="section-box">
+      <div class="section-label">Send to Connected Devices</div>
+
+      <textarea id="sendInput" placeholder="Type or paste content to send..."></textarea>
+
+      <div class="actions-row">
+        <button id="pasteBtn" class="btn-secondary" title="Paste from phone clipboard">
+          Paste
+        </button>
+        <button id="sendBtn" class="btn-primary" style="flex: 1;">
+          Send
+        </button>
+      </div>
+    </div>
+
+    <!-- History -->
+    <div class="section-box">
+      <div class="history-header">
+        <div class="section-label">
+          History (<span id="historyCount">0</span>)
+        </div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <input type="text" id="searchInput" class="filter-input" placeholder="Filter...">
+          <button id="clearHistoryBtn" class="text-btn">Clear</button>
+        </div>
+      </div>
+
+      <div id="historyList" class="history-items">
+        <!-- Rendered dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Pairing Modal -->
+  <div id="qrModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-title">Pair Device</div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.4;">
+        Connect to the same local Wi-Fi or hotspot and scan this QR code with your phone camera.
+      </p>
+      <div class="qr-box">
+        <img id="qrImg" src="" alt="Pairing QR">
+        <div id="urlDisplay" class="url-code">http://...</div>
+      </div>
+      <button id="closeQrBtn" class="btn-secondary">Close</button>
+    </div>
+  </div>
+
+  <!-- Setup Guide Modal -->
+  <div id="guideModal" class="modal-overlay">
+    <div class="modal">
+      <div class="modal-title">Setup Guide</div>
+
+      <div
+        style="font-size: 0.82rem; color: var(--text-dim); display: flex; flex-direction: column; gap: 14px; line-height: 1.5; max-height: 380px; overflow-y: auto;">
+        <div>
+          <div style="font-weight: 600; color: var(--text); margin-bottom: 2px;">Windows PC</div>
+          Highlight any text in any app and press <kbd>Ctrl + Alt + C</kbd>. It sends immediately to your phone.
+        </div>
+
+        <div>
+          <div style="font-weight: 600; color: var(--text); margin-bottom: 2px;">Android</div>
+          1. In Chrome, tap menu (⋮) &gt; "Add to Home screen".<br>
+          2. Highlight text in any app, tap Share &gt; select ClipFlow.
+        </div>
+
+        <div>
+          <div style="font-weight: 600; color: var(--text); margin-bottom: 2px;">iPhone (iOS)</div>
+          1. In Safari, tap Share &gt; "Add to Home Screen".<br>
+          2. For 1-tap share, add a Shortcut with action "Get Contents of URL" pointing to <code id="guideApiUrl"
+            style="font-family: var(--font-mono); color: var(--text);">http://.../api/send</code> (POST JSON with key
+          <code>text</code>).
+        </div>
+      </div>
+
+      <button id="closeGuideBtn" class="btn-secondary">Done</button>
+    </div>
+  </div>
+
+  <!-- Minimal Toast -->
+  <div id="toast">
+    <span id="toastMsg">Copied</span>
+  </div>
+
+  <audio id="chimeAudio" preload="auto">
+    <source
+      src="data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU9vT18A/38A/38A/38A/38Af39/f39/f39/f39/f39/f39/f39/f39/f39/f3+Af4CAgICA/4B/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f39/f38="
+      type="audio/wav">
+  </audio>
+
+  <script src="/static/app.js"></script>
+</body>
+
+</html>

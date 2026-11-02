@@ -1,0 +1,6 @@
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+websockets>=11.0
+pyperclip>=1.8.2
+pynput>=1.7.6
+qrcode>=7.4.2
