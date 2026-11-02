@@ -44,3 +44,4 @@ Thank you for your interest in contributing! ClipFlow is built to be simple, fas
 2. Commit your changes: `git commit -am 'Add some feature'`
 3. Push to the branch: `git push origin feature/my-new-feature`
 4. Open a Pull Request!
+
